@@ -18,7 +18,7 @@ VALUE v8_Object_Get(VALUE self, VALUE key) {
   HandleScope handles;  
   Local<Object> obj = V8_Ref_Get<Object>(self);
   VALUE keystr = rb_funcall(key,rb_intern("to_s"), 0);
-  Local<Value> value = obj->Get(RB2V8(keystr));
+  Local<Value> value = obj->Get(ruby2v8(keystr));
   return V82RB(value);
 }
 

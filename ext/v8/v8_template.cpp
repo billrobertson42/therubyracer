@@ -4,6 +4,7 @@
 #include "v8_func.h"
 #include "v8_template.h"
 #include "converters.h"
+#include "bridge_rv.h"
 
 using namespace v8;
 
@@ -21,7 +22,7 @@ Handle<Value> RubyInvocationCallback(const Arguments& args) {
     VALUE result = rb_funcall2(code, rb_intern("call"), args.Length(), arguments);
     delete [] arguments;
     
-    Handle<Value> convertedResult = RB2V8(result);
+    Handle<Value> convertedResult = ruby2v8(result);
     return convertedResult  ;
   }
 }
