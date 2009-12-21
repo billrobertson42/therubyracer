@@ -4,10 +4,6 @@
 #include "bridge_types.h"
 #include <ruby.h>
 
-class RubyToBridge {
-public:
-  const BridgeObject* create(VALUE value) const;
-private:
-};
+const BridgeObject* rb2br(VALUE value);
 
 #endif /* end of include guard: BRIDGE_RUBY_TYPES_H_OX4ZG25S */

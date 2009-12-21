@@ -23,67 +23,63 @@ public:
 };
 
 class BridgeObject {
+public:
+  virtual std::string toString() const = 0;
   virtual void accept(BridgeVisitor& visitor) const = 0;  
 };
 
 class BridgeDouble : public BridgeObject {
   const double value;
 public:
-  BridgeDouble(double x) : value(x) {}
+  BridgeDouble(double x);
+  virtual std::string toString() const;
   double getValue() const {return value;}
-  virtual void accept(BridgeVisitor& visitor) const {
-    visitor.visit(this);
-  }
-  virtual ~BridgeDouble() {}
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeDouble();
 };
 
 class BridgeInt : public BridgeObject {
   const int value;
 public:
-  BridgeInt(int x) : value(x) {}
+  BridgeInt(int x);
+  virtual std::string toString() const;
   int getValue() const {return value;}
-  virtual void accept(BridgeVisitor& visitor) const {
-    visitor.visit(this);
-  }
-  virtual ~BridgeInt() {}
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeInt();
 };
 
 class BridgeBoolean : public BridgeObject {
   const bool value;
 public:
-  BridgeBoolean(bool x) : value(x) {}
+  BridgeBoolean(bool x);
+  virtual std::string toString() const;
   bool getValue() const {return value;}
-  virtual void accept(BridgeVisitor& visitor) const {
-    visitor.visit(this);
-  }
-  virtual ~BridgeBoolean() {}
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeBoolean();
 };
 
 class BridgeString : public BridgeObject {
   const std::string value;
 public:
-  BridgeString(const char* x) : value(x) {}
+  BridgeString(const char* x);
+  virtual std::string toString() const;
   const std::string& getValue() const {return value;}
-  virtual void accept(BridgeVisitor& visitor) const {
-    visitor.visit(this);
-  }
-  virtual ~BridgeString() {}
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeString();
 };
 
 class BridgeNull : public BridgeObject {
 public:
-  virtual void accept(BridgeVisitor& visitor) const {
-    visitor.visit(this);
-  }
-  virtual ~BridgeNull() {}
+  virtual std::string toString() const;
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeNull();
 };
 
 class BridgeUndefined : public BridgeObject {
 public:
-  virtual void accept(BridgeVisitor& visitor) const {
-    visitor.visit(this);
-  }
-  virtual ~BridgeUndefined() {}  
+  virtual std::string toString() const;
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeUndefined();
 };
 
 #endif /* end of include guard: TYPES_H_LQN8MURY */

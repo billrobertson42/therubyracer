@@ -1,6 +1,6 @@
 #include "bridge_ruby.h"
 
-const BridgeObject* RubyToBridge::create(VALUE value) const {
+const BridgeObject* rb2br(VALUE value) {
   switch (TYPE(value)) {
   case T_FIXNUM:
     return new BridgeInt(FIX2INT(value));
