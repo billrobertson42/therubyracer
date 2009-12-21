@@ -62,6 +62,7 @@ class BridgeString : public BridgeObject {
   const std::string value;
 public:
   BridgeString(const char* x);
+  BridgeString(const std::string& s);
   virtual std::string toString() const;
   const std::string& getValue() const {return value;}
   virtual void accept(BridgeVisitor& visitor) const;

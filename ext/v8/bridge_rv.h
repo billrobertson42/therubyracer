@@ -10,4 +10,9 @@
  */
 v8::Local<v8::Value> ruby2v8(VALUE value);
 
+/**
+ * Simple converstion from v8 value to value to ruby value
+ */
+VALUE v82ruby(v8::Handle<v8::Value>& value);
+
 #endif /* end of include guard: BRIDGE_H_PTQKOZSO */

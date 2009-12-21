@@ -1,6 +1,58 @@
 #include "bridge_v8.h"
 #include <v8.h>
 
+const BridgeObject* v82bo(v8::Handle<v8::Value>& value) {
+  if (value.IsEmpty()) {
+    return new BridgeNull;
+  }
+
+  if (value->IsUndefined()) {
+    return new BridgeNull;
+  }
+
+  if(value->IsNull()) {
+    return new BridgeNull;
+  }
+  
+  if(value->IsTrue()) {
+    return new BridgeBoolean(true);
+  }
+
+  if(value->IsFalse()) {
+    return new BridgeBoolean(false);
+  }
+
+  if(value->IsString()) {
+    v8::Local<v8::String> str = value->ToString();
+    char buffer[1024];
+    int strlen = str->Length();
+    std::string output(strlen, 0);
+    for (int total = 0; total < strlen;) {
+      int written = str->WriteAscii(buffer, total, 1024);
+      output.replace(total, written, buffer);
+      total += written;
+    }
+    return new BridgeString(output);
+  }
+
+  if(value->IsInt32()) {
+    return new BridgeInt(value->Int32Value());
+  }
+
+  if(value->IsNumber()) {
+    return new BridgeDouble(value->NumberValue());
+  }
+  
+  if (value->IsObject()) {
+//    v8::Local<v8::Object> object(v8::Object::Cast(*value));
+//    return dest.pushObject(object);
+  }
+  
+  return new BridgeUndefined;
+  
+}
+
+
 void V8Value::visit(const BridgeDouble* bd) {
   result = v8::Local<v8::Value>::New(v8::Number::New(bd->getValue()));
 }

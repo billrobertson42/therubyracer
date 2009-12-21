@@ -4,6 +4,8 @@
 #include "bridge_types.h"
 #include <v8.h>
 
+const BridgeObject* v82bo(v8::Handle<v8::Value>& value);
+
 class V8Value : public BridgeVisitor {
   
   v8::Local<v8::Value> result;

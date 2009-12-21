@@ -25,3 +25,35 @@ const BridgeObject* rb2bo(VALUE value) {
   }
   return new BridgeUndefined;
 }
+
+void RubyValue::visit(const BridgeDouble* bd) {
+  result = rb_float_new(bd->getValue());
+}
+
+void RubyValue::visit(const BridgeInt* bi) {
+  result = INT2FIX(bi->getValue());
+}
+
+void RubyValue::visit(const BridgeBoolean* bb) {
+  result = bb->getValue() ? Qtrue : Qfalse;
+}
+
+void RubyValue::visit(const BridgeString* bs) {
+  result = rb_str_new2(bs->getValue().c_str());
+}
+
+void RubyValue::visit(const BridgeNull* bn) {
+  result = Qnil;
+}
+
+void RubyValue::visit(const BridgeUndefined* bu) {
+  result = Qnil;
+}
+
+// void RubyValue::visit(const BridgeObjectInstance* bo) {
+//   result = V8_Ref_Create(V8_C_Object, value);
+// }
+
+RubyValue::~RubyValue() {
+  
+}

@@ -13,6 +13,7 @@ BridgeDouble::BridgeDouble(double d) : value(d) {}
 BridgeInt::BridgeInt(int i) : value(i) {}
 BridgeBoolean::BridgeBoolean(bool b) : value(b) {}
 BridgeString::BridgeString(const char* s) : value(s) {}
+BridgeString::BridgeString(const string& s) : value(s) {}
 
 BridgeDouble::~BridgeDouble() {}
 BridgeInt::~BridgeInt() {}
