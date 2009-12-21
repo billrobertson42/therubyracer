@@ -1,9 +1,7 @@
 #include "v8_cxt.h"
 #include "v8_msg.h"
 #include "converters.h"
-#include "bridge_ruby.h"
-#include "bridge_v8.h"
-#include <memory>
+#include "bridge_rv.h"
 
 using namespace v8;
 using namespace std;
@@ -50,15 +48,9 @@ VALUE v8_cxt_eval(VALUE self, VALUE source) {
   HandleScope handles;
   Local<Context> cxt = V8_Ref_Get<Context>(self);
   Context::Scope enter(cxt);
-  
-  auto_ptr<const BridgeObject> source_br(rb2br(source));
-  
-  V8Local local;
-  source_br->accept(local);
-  std::string script_str = source_br->toString();
-  
-  Local<Value> source_str = local.getResult();
-  Local<Script> script = Script::Compile(source_str->ToString());
+    
+  Local<Value> source_val = ruby2v8(source);
+  Local<Script> script = Script::Compile(source_val->ToString());
   Local<Value> result = script->Run();
   return V82RB(result);
 }

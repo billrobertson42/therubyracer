@@ -4,7 +4,7 @@
 #include "bridge_types.h"
 #include <v8.h>
 
-class V8Local : public BridgeVisitor {
+class V8Value : public BridgeVisitor {
   
   v8::Local<v8::Value> result;
   
@@ -18,7 +18,7 @@ public:
   virtual void visit(const BridgeString* bs);
   virtual void visit(const BridgeNull* bn);
   virtual void visit(const BridgeUndefined* bu);
-  virtual ~V8Local();
+  virtual ~V8Value();
 };
 
 
