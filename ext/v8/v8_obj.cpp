@@ -1,6 +1,5 @@
 #include "v8_obj.h"
 #include "v8_ref.h"
-#include "converters.h"
 #include "bridge_rv.h"
 #include <memory>
 
@@ -19,7 +18,7 @@ VALUE v8_Object_Get(VALUE self, VALUE key) {
   Local<Object> obj = V8_Ref_Get<Object>(self);
   VALUE keystr = rb_funcall(key,rb_intern("to_s"), 0);
   Local<Value> value = obj->Get(ruby2v8(keystr));
-  return V82RB(value);
+  return v82ruby(value);
 }
 
 VALUE v8_Object_Set(VALUE self, VALUE key, VALUE value) {

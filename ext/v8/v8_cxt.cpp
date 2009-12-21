@@ -1,6 +1,5 @@
 #include "v8_cxt.h"
 #include "v8_msg.h"
-#include "converters.h"
 #include "bridge_rv.h"
 
 using namespace v8;
@@ -20,10 +19,9 @@ VALUE v8_Context_New(int argc, VALUE *argv, VALUE self) {
 
 VALUE v8_cxt_Global(VALUE self) {
   HandleScope handles;
-  convert_v8_to_rb_t v82rb;
   Local<Context> cxt = V8_Ref_Get<Context>(self);
   Local<Value> global = *cxt->Global();
-  return v82rb(global);
+  return v82ruby(global);
 }
 
 VALUE v8_cxt_open(VALUE self) {
@@ -52,7 +50,7 @@ VALUE v8_cxt_eval(VALUE self, VALUE source) {
   Local<Value> source_val = ruby2v8(source);
   Local<Script> script = Script::Compile(source_val->ToString());
   Local<Value> result = script->Run();
-  return V82RB(result);
+  return v82ruby(result);
 }
 
 

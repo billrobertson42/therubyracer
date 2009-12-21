@@ -3,7 +3,6 @@
 #include "v8_ref.h"
 #include "v8_func.h"
 #include "v8_template.h"
-#include "converters.h"
 #include "bridge_rv.h"
 
 using namespace v8;
@@ -16,7 +15,7 @@ Handle<Value> RubyInvocationCallback(const Arguments& args) {
     VALUE* arguments = new VALUE[args.Length()];
     for(int c=0;c<args.Length(); ++c) {
       Handle<Value> val = args[c];
-      arguments[c] = V82RB(val);
+      arguments[c] = v82ruby(val);
     }
       
     VALUE result = rb_funcall2(code, rb_intern("call"), args.Length(), arguments);
