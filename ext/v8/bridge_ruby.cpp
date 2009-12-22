@@ -1,6 +1,6 @@
 #include "bridge_ruby.h"
 
-const BridgeObject* rb2bo(VALUE value) {
+const BridgeType* rb2bt(VALUE value) {
   switch (TYPE(value)) {
   case T_FIXNUM:
     return new BridgeInt(FIX2INT(value));
@@ -24,6 +24,12 @@ const BridgeObject* rb2bo(VALUE value) {
   //   }
   }
   return new BridgeUndefined;
+}
+
+VALUE bt2rb(const BridgeType* bt) {
+  RubyValue value;
+  bt->accept(value);
+  return value.getResult();
 }
 
 void RubyValue::visit(const BridgeDouble* bd) {
@@ -50,10 +56,52 @@ void RubyValue::visit(const BridgeUndefined* bu) {
   result = Qnil;
 }
 
-// void RubyValue::visit(const BridgeObjectInstance* bo) {
+void RubyValue::visit(const BridgeFunction* bu) {
+  result = Qnil;
+}
+
+void RubyValue::visit(const BridgeObject* bf) {
+  result = Qnil;
+}
+
+// void RubyValue::visit(const BridgeTypeInstance* bo) {
 //   result = V8_Ref_Create(V8_C_Object, value);
 // }
 
 RubyValue::~RubyValue() {
+   
+}
+
+RubyFunction::RubyFunction(VALUE val) : functionHandle(val) {
+  
+}
+
+bool RubyFunction::isExternallyManaged() const {
+  return true;
+}
+
+std::string RubyFunction::toString() const {
+  return "Ruby Function";
+}
+
+void RubyFunction::accept(BridgeVisitor& visitor) const {
+  visitor.visit(this);
+}
+
+const BridgeType* RubyFunction::invoke(int argc, const BridgeType** argv) const {
+  VALUE* arguments = new VALUE[argc];
+  
+  for(int c=0;c<argc; ++c) {
+    arguments[c] = bt2rb(argv[c]);
+  }
+    
+  VALUE result = rb_funcall2(functionHandle, rb_intern("call"), argc, arguments);
+  delete [] arguments;
+  
+  const BridgeType* convertedResult = rb2bt(result);
+  return convertedResult;
+}
+
+RubyFunction::~RubyFunction() {
   
 }

@@ -21,6 +21,12 @@ BridgeBoolean::~BridgeBoolean() {}
 BridgeString::~BridgeString() {}
 BridgeNull::~BridgeNull() {}
 BridgeUndefined::~BridgeUndefined() {}
+BridgeFunction::~BridgeFunction() {}
+BridgeObject::~BridgeObject() {}
+
+bool BridgeType::isExternallyManaged() const {
+  return false;
+}
 
 void BridgeDouble::accept(BridgeVisitor& visitor ) const {
   visitor.visit(this);
@@ -43,6 +49,14 @@ void BridgeNull::accept(BridgeVisitor& visitor ) const {
 }
 
 void BridgeUndefined::accept(BridgeVisitor& visitor ) const {
+  visitor.visit(this);
+}
+
+void BridgeFunction::accept(BridgeVisitor& visitor ) const {
+  visitor.visit(this);
+}
+
+void BridgeObject::accept(BridgeVisitor& visitor ) const {
   visitor.visit(this);
 }
 

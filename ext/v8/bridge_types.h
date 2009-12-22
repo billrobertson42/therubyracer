@@ -10,6 +10,8 @@ class BridgeString;
 class BridgeBoolean;
 class BridgeNull;
 class BridgeUndefined;
+class BridgeFunction;
+class BridgeObject;
 
 class BridgeVisitor {
 public:
@@ -19,16 +21,19 @@ public:
   virtual void visit(const BridgeString* bs) = 0;
   virtual void visit(const BridgeNull* bn) = 0;
   virtual void visit(const BridgeUndefined* bu) = 0;
+  virtual void visit(const BridgeFunction* bf) = 0;
+  virtual void visit(const BridgeObject* bo) = 0;
   virtual ~BridgeVisitor() {}
 };
 
-class BridgeObject {
+class BridgeType {
 public:
   virtual std::string toString() const = 0;
-  virtual void accept(BridgeVisitor& visitor) const = 0;  
+  virtual void accept(BridgeVisitor& visitor) const = 0;
+  virtual bool isExternallyManaged() const;
 };
 
-class BridgeDouble : public BridgeObject {
+class BridgeDouble : public BridgeType {
   const double value;
 public:
   BridgeDouble(double x);
@@ -38,7 +43,7 @@ public:
   virtual ~BridgeDouble();
 };
 
-class BridgeInt : public BridgeObject {
+class BridgeInt : public BridgeType {
   const int value;
 public:
   BridgeInt(int x);
@@ -48,7 +53,7 @@ public:
   virtual ~BridgeInt();
 };
 
-class BridgeBoolean : public BridgeObject {
+class BridgeBoolean : public BridgeType {
   const bool value;
 public:
   BridgeBoolean(bool x);
@@ -58,7 +63,7 @@ public:
   virtual ~BridgeBoolean();
 };
 
-class BridgeString : public BridgeObject {
+class BridgeString : public BridgeType {
   const std::string value;
 public:
   BridgeString(const char* x);
@@ -69,18 +74,31 @@ public:
   virtual ~BridgeString();
 };
 
-class BridgeNull : public BridgeObject {
+class BridgeNull : public BridgeType {
 public:
   virtual std::string toString() const;
   virtual void accept(BridgeVisitor& visitor) const;
   virtual ~BridgeNull();
 };
 
-class BridgeUndefined : public BridgeObject {
+class BridgeUndefined : public BridgeType {
 public:
   virtual std::string toString() const;
   virtual void accept(BridgeVisitor& visitor) const;
   virtual ~BridgeUndefined();
+};
+
+class BridgeFunction : public BridgeType {
+public:
+  virtual const BridgeType* invoke(int argc, const BridgeType** argv) const = 0;
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeFunction();
+};
+
+class BridgeObject : BridgeType {
+public:
+  virtual void accept(BridgeVisitor& visitor) const;
+  virtual ~BridgeObject();
 };
 
 #endif /* end of include guard: TYPES_H_LQN8MURY */

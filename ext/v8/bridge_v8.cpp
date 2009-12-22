@@ -1,7 +1,7 @@
 #include "bridge_v8.h"
 #include <v8.h>
 
-const BridgeObject* v82bo(v8::Handle<v8::Value>& value) {
+const BridgeType* v82bt(v8::Handle<v8::Value>& value) {
   if (value.IsEmpty()) {
     return new BridgeNull;
   }
@@ -74,6 +74,14 @@ void V8Value::visit(const BridgeNull* bn) {
 }
 
 void V8Value::visit(const BridgeUndefined* bu) {
+  result = v8::Local<v8::Value>::New(v8::Undefined());
+}
+
+void V8Value::visit(const BridgeFunction* bu) {
+  result = v8::Local<v8::Value>::New(v8::Undefined());
+}
+
+void V8Value::visit(const BridgeObject* bo) {
   result = v8::Local<v8::Value>::New(v8::Undefined());
 }
 

@@ -4,7 +4,7 @@
 #include "bridge_types.h"
 #include <v8.h>
 
-const BridgeObject* v82bo(v8::Handle<v8::Value>& value);
+const BridgeType* v82bt(v8::Handle<v8::Value>& value);
 
 class V8Value : public BridgeVisitor {
   
@@ -20,6 +20,8 @@ public:
   virtual void visit(const BridgeString* bs);
   virtual void visit(const BridgeNull* bn);
   virtual void visit(const BridgeUndefined* bu);
+  virtual void visit(const BridgeFunction* bf);
+  virtual void visit(const BridgeObject* bo);
   virtual ~V8Value();
 };
 
