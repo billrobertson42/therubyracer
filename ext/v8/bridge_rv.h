@@ -15,4 +15,5 @@ v8::Local<v8::Value> ruby2v8(VALUE value);
  */
 VALUE v82ruby(v8::Handle<v8::Value>& value);
 
+
 #endif /* end of include guard: BRIDGE_H_PTQKOZSO */

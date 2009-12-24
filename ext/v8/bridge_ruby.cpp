@@ -105,3 +105,26 @@ const BridgeType* RubyFunction::invoke(int argc, const BridgeType** argv) const 
 RubyFunction::~RubyFunction() {
   
 }
+
+RubyRefable::~RubyRefable() {
+}
+
+void RubyRefable::mark() {
+  
+}
+
+static void markWrapperObject(RubyRefable* objectToMark) {
+  objectToMark->mark();
+}
+
+static void freeWrapperObject(RubyRefable* objectToDelete) {
+  delete objectToDelete;
+}
+
+VALUE associateWithRuby(VALUE ruby_class, const RubyRefable* object) {
+  return Data_Wrap_Struct(ruby_class, markWrapperObject, freeWrapperObject, (void*)object);
+}
+
+const RubyRefable* getAssociatedObjectFromRuby(VALUE handle) {
+  return 0; 
+}

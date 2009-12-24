@@ -4,8 +4,14 @@
 #include "bridge_types.h"
 #include <v8.h>
 
+/**
+ * Convert a V8 Value into a BridgeType
+ */
 const BridgeType* v82bt(v8::Handle<v8::Value>& value);
 
+/**
+ * Convert a BridgeType into a V8 value.
+ */
 class V8Value : public BridgeVisitor {
   
   v8::Local<v8::Value> result;
@@ -25,5 +31,10 @@ public:
   virtual ~V8Value();
 };
 
+class V8Object : public BridgeObject {
+  
+  v8::Persistent<v8::Object> object;
+  
+};
 
 #endif /* end of include guard: BRIDGE_V8_H_5WYPG904 */

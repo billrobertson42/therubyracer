@@ -5,6 +5,8 @@
 #include "v8_template.h"
 #include "bridge_rv.h"
 
+#include <cstdio>
+
 using namespace v8;
 
 Handle<Value> RubyInvocationCallback(const Arguments& args) {
@@ -28,9 +30,13 @@ Handle<Value> RubyInvocationCallback(const Arguments& args) {
  
 VALUE v8_Template_Set(VALUE self, VALUE name, VALUE value) {
   HandleScope handles;
+  printf("%s:%d\n",__FILE__, __LINE__);
   Local<Template> tmpl = V8_Ref_Get<Template>(self);
+  printf("%s:%d\n",__FILE__, __LINE__);
   Local<Data> data = V8_Ref_Get<Data>(value);
+  printf("%s:%d\n",__FILE__, __LINE__);
   tmpl->Set(RSTRING(name)->ptr, data);
+  printf("%s:%d\n",__FILE__, __LINE__);
   return Qnil;
 }
 

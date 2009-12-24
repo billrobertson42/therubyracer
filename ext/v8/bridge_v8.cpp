@@ -44,7 +44,7 @@ const BridgeType* v82bt(v8::Handle<v8::Value>& value) {
   }
   
   if (value->IsObject()) {
-//    v8::Local<v8::Object> object(v8::Object::Cast(*value));
+    v8::Local<v8::Object> object(v8::Object::Cast(*value));
 //    return dest.pushObject(object);
   }
   
