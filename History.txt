@@ -1,4 +1,31 @@
-=== 0.0.1 2009-12-14
+=== 0.4.4 2010-01-14
+* 2 major enhancements:
+  * Ruby objects embedded into javascript are passed back to ruby as themselves and not a wrapped V8 object wrapping a ruby object.
+  * Use any ruby object as the scope of eval().
+* 5 minor enhancements:
+  * quick and dirty V8.eval() method added
+  * native objects have a reference to the context that created them.
+  * context now has equality check.
+  * expose InContext() and GetCurrent() methods.
+  * fix a couple of segmentation faults
 
+=== 0.4.3 2010-10-11
+* 3 major enhancements:
+  * access properties on Ruby objects with their camel case equivalents
+  * reflect JavaScript objects into Ruby and access their properties
+  * load JavaScript source from an IO object or by filename
+
+=== 0.4.2 2010-10-10
 * 1 major enhancement:
-  * Initial release
+  * embed Ruby Objects into Javascript and call their methods
+
+=== 0.4.1 2010-01-09
+
+* 3 major enhancements:
+  * embed bare Proc and Method objects into JavaScript and call them
+  * catch JavaScript exceptions from Ruby
+
+=== 0.4.0 2009-12-21
+
+* 1 major enhancements:
+  * evaluate JavaScript code from inside Ruby.
