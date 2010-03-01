@@ -49,3 +49,10 @@ VALUE v8_Object_context(VALUE self) {
   Local<Value> cxt = object->GetHiddenValue(String::New("TheRubyRacer::Context"));
   return cxt.IsEmpty() ? Qnil : (VALUE)External::Unwrap(cxt);
 }
+
+VALUE v8_Object_ToString(VALUE self) {
+  HandleScope handles;
+  Local<Object> object = unwrap(self);
+  Local<Value> string = object->ToString();
+  return V82RB(string);
+}

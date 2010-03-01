@@ -1,3 +1,34 @@
+=== 0.5.2 2010-02-26
+* 1 major enhancement
+  * added javascript shell (bin/therubyracer)
+* 2 minor enhancements
+  * added to_s method for embedded ruby objects
+  * added line number and file name to error message.
+
+=== 0.5.1 2010-02-17
+* 1 minor enhancement
+  * fix bug in 1.8.6 by creating Object#tap if it does not exist
+
+=== 0.5.0 2010-02-17
+* 1 major enhancement
+  * support for Linux 64 bit
+
+=== 0.4.9 2010-02-16
+* 1 major enhancement
+  * support for Linux 32 bit
+  
+=== 0.4.8 2010-02-08
+* 1 major enhancement
+  * expose line number and source name on JavascriptErrors.
+
+=== 0.4.5 2010-01-18
+* 3 major enhancements
+  * case munging so that ruby methods(perl_case) are accessed through javascript in camelCase.
+  * access 0-arity ruby methods as javascript properties
+  * invoke ruby setters from javascript as properties
+* 1 minor enhancements
+  * contexts detect whether they are open or not and open when needed
+
 === 0.4.4 2010-01-14
 * 2 major enhancements:
   * Ruby objects embedded into javascript are passed back to ruby as themselves and not a wrapped V8 object wrapping a ruby object.

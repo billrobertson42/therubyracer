@@ -121,17 +121,22 @@ exposed by default. E.g.
   
 == REQUIREMENTS:
 
-* libv8 >= 0.4.0
+* python >= 2.5 (required to compile v8)
+* C++ compiler
 
 == INSTALL:
-* download, build and install V8: http://code.google.com/apis/v8/build.html
-* sudo gem install therubyracer
+* gem install therubyracer
+
+== DEVELOP
+* git clone git://github.com/cowboyd/therubyracer.git
+* cd therubyracer
+* rake compile
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 Charles Lowell
+Copyright (c) 2009,2010 Charles Lowell
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
