@@ -1,4 +1,70 @@
-=== 0.0.1 2009-12-14
+=== 0.5.4 2010-03-09
+* 1 minor enhancement
+ * add ext directory to gem require paths which was causing problems for non-binary gems
+ 
+=== 0.5.3 2010-03-01
+* 1 major enhancement
+  * added full back trace to javascript code
+  
+=== 0.5.2 2010-02-26
+* 1 major enhancement
+  * added javascript shell (bin/therubyracer)
+* 2 minor enhancements
+  * added to_s method for embedded ruby objects
+  * added line number and file name to error message.
 
+=== 0.5.1 2010-02-17
+* 1 minor enhancement
+  * fix bug in 1.8.6 by creating Object#tap if it does not exist
+
+=== 0.5.0 2010-02-17
+* 1 major enhancement
+  * support for Linux 64 bit
+
+=== 0.4.9 2010-02-16
+* 1 major enhancement
+  * support for Linux 32 bit
+  
+=== 0.4.8 2010-02-08
+* 1 major enhancement
+  * expose line number and source name on JavascriptErrors.
+
+=== 0.4.5 2010-01-18
+* 3 major enhancements
+  * case munging so that ruby methods(perl_case) are accessed through javascript in camelCase.
+  * access 0-arity ruby methods as javascript properties
+  * invoke ruby setters from javascript as properties
+* 1 minor enhancements
+  * contexts detect whether they are open or not and open when needed
+
+=== 0.4.4 2010-01-14
+* 2 major enhancements:
+  * Ruby objects embedded into javascript are passed back to ruby as themselves and not a wrapped V8 object wrapping a ruby object.
+  * Use any ruby object as the scope of eval().
+* 5 minor enhancements:
+  * quick and dirty V8.eval() method added
+  * native objects have a reference to the context that created them.
+  * context now has equality check.
+  * expose InContext() and GetCurrent() methods.
+  * fix a couple of segmentation faults
+
+=== 0.4.3 2010-10-11
+* 3 major enhancements:
+  * access properties on Ruby objects with their camel case equivalents
+  * reflect JavaScript objects into Ruby and access their properties
+  * load JavaScript source from an IO object or by filename
+
+=== 0.4.2 2010-10-10
 * 1 major enhancement:
-  * Initial release
+  * embed Ruby Objects into Javascript and call their methods
+
+=== 0.4.1 2010-01-09
+
+* 3 major enhancements:
+  * embed bare Proc and Method objects into JavaScript and call them
+  * catch JavaScript exceptions from Ruby
+
+=== 0.4.0 2009-12-21
+
+* 1 major enhancements:
+  * evaluate JavaScript code from inside Ruby.

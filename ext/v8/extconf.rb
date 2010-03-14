@@ -1,8 +1,19 @@
-#!/opt/local/bin/ruby
 require 'mkmf'
 
-dir_config('v8')
-have_library('v8') or raise "unable to find libv8"
+UPSTREAM = File.expand_path(File.dirname(__FILE__) + "/upstream")
+BUILD = "#{UPSTREAM}/build/v8"
+
+
+puts "Compiling V8"
+
+system("cd #{UPSTREAM} && make") or raise "Error compiling V8"
+
+dir_config('v8', "#{BUILD}/include", "#{BUILD}")
+have_library('v8') or raise "Unable to find libv8 in #{BUILD}, was there an error compiling it?"
+
+$CPPFLAGS += " -Wall" unless $CPPFLAGS.split.include? "-Wall"
+
+CONFIG['LDSHARED'] = '$(CXX) -shared' unless RUBY_PLATFORM =~ /darwin/
 
 $CPPFLAGS += " -Wall" unless $CPPFLAGS.split.include? "-Wall"
 

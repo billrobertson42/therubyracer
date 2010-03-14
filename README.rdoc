@@ -6,6 +6,7 @@
 
 Embed the V8 Javascript interpreter into Ruby.
 
+
 == FEATURES/PROBLEMS:
 
 * Evaluate Javascript from with in Ruby
@@ -15,10 +16,17 @@ Embed the V8 Javascript interpreter into Ruby.
 * Currently ALPHA software. 
 
 == SYNOPSIS:
+  gem install therubyracer
+
+# then in your ruby code
 
   require 'v8'
   
 # evaluate some simple javascript
+
+  V8.eval("7 * 6") #=> 42
+
+# embed values into the scope of your context
 
   V8::Context.open do |cxt|
     cxt['foo'] = "bar"
@@ -45,7 +53,6 @@ Embed the V8 Javascript interpreter into Ruby.
     context.eval("math.plus(20,22)") #=> 42
   end
 
-#COMING SOON!
 # make a ruby object *be* your javascript environment
   math = MyMath.new
   V8::Context.open(:with => math) do |context|
@@ -118,17 +125,22 @@ exposed by default. E.g.
   
 == REQUIREMENTS:
 
-* libv8 >= 0.4.0
+* python >= 2.5 (required to compile v8)
+* C++ compiler
 
 == INSTALL:
-* download, build and install V8: http://code.google.com/apis/v8/build.html
-* sudo gem install therubyracer
+* gem install therubyracer
+
+== DEVELOP
+* git clone git://github.com/cowboyd/therubyracer.git
+* cd therubyracer
+* rake compile
 
 == LICENSE:
 
 (The MIT License)
 
-Copyright (c) 2009 Charles Lowell
+Copyright (c) 2009,2010 Charles Lowell
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

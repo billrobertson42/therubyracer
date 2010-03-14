@@ -21,9 +21,13 @@ module V8
         end
       end
       
-      def camelcase(str)
+      def camel_case(str)
         str.to_s.gsub(/_(\w)/) {$1.upcase}
-      end      
+      end
+      
+      def perl_case(str)
+        str.gsub(/([A-Z])([a-z])/) {"_#{$1.downcase}#{$2}"}.downcase
+      end
     end
   end
 end
