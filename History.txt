@@ -1,6 +1,18 @@
+=== 0.6.0 2010-03-31
+* 4 major enhancements
+  * ruby 1.9 compatible
+  * full featured command line bin/v8 and bin/therubyracer
+  * self validating install (v8 --selftest)
+  * Only dependency to build gem from source is rubygems.
+
+=== 0.5.5 2010-03-15
+* 2 minor enhancements
+  * fix string encoding issue that was breaking RHEL 5.x
+  * fix pthread linking issue on RHEL 5.2
+  
 === 0.5.4 2010-03-09
 * 1 minor enhancement
- * add ext directory to gem require paths which was causing problems for non-binary gems
+  * add ext directory to gem require paths which was causing problems for non-binary gems
  
 === 0.5.3 2010-03-01
 * 1 major enhancement

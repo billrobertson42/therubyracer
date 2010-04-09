@@ -1,6 +1,8 @@
 
 v8.bundle
+v8.so
 *.o
+*.gem
 *.log
 *~
 docs/cpp/html/*
