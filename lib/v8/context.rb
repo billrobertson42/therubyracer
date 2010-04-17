@@ -61,7 +61,9 @@ module V8
     end
     
     def self.eval(source)
-      new.eval(source)
+      Context.open do |cxt|
+        cxt.eval(source)
+      end
     end
     
     def V8.eval(*args)
@@ -77,6 +79,7 @@ module V8
       raise new(caller_name) unless C::Context::InContext()
     end
   end
+
   class JavascriptError < StandardError
     def initialize(v8_message)
       super("#{v8_message.Get()}: #{v8_message.GetScriptResourceName()}:#{v8_message.GetLineNumber()}")
@@ -97,9 +100,9 @@ module V8
     
     def javascript_stacktrace
       @native.stack
-    end
-    
+    end    
   end
+
   class RunawayScriptError < ContextError
   end
   
