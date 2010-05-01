@@ -8,29 +8,32 @@ module V8
     end
     
     def [](key)
-      @native.context.open do
-        To.ruby(@native.Get(key.to_s))        
-      end
+      puts "Object::[#{key}] #{@native}"      
+      @native.context.enter
+      foo = To.ruby(@native.Get(key.to_s))
+      @native.context.exit
+      puts foo
+      return foo
     end
     
     def []=(key, value)
-      value.tap do
-        @native.context.open do
-          @native.Set(key.to_s, value)
-        end
-      end
+      @native.context.enter        
+      @native.Set(key.to_s, value)
+      @native.context.exit        
     end
     
     def to_s
-      @native.context.open do
-        @native.ToString()
-      end
+      @native.context.enter
+      @native.ToString()
+      @native.context.exit        
     end
     
     def each
+      @native.context.enter
       for prop in @native.GetPropertyNames()
         yield prop, self[prop]
       end
+      @native.context.exit        
     end
   end
 end

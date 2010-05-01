@@ -2,7 +2,8 @@ require 'stringio'
 
 module V8  
   class Context    
-    def initialize(opts = {})      
+    def initialize(opts = {})
+      puts "initialize"
       @native = C::Context.new(opts[:with])
     end
     
@@ -19,15 +20,18 @@ module V8
     end
     
     def eval(javascript, sourcename = '<eval>', line = 1)
+      puts "eval"
       if IO === javascript || StringIO === javascript
         javascript = javascript.read()
       end
-      self.open do
-        @native.eval(javascript, sourcename).tap do |result|
-          raise JavascriptError.new(result) if result.kind_of?(C::Message)
-          return To.ruby(result)
-        end
-      end
+      puts "enter"
+      @native.enter
+      puts "eval"
+      result = @native.eval(javascript, sourcename)
+      puts "exit"
+      @native.exit
+      raise JavascriptError.new(result) if result.kind_of?(C::Message)
+      return To.ruby(result)
     end
         
     def evaluate(*args)
@@ -41,19 +45,14 @@ module V8
     end
     
     def [](key)
-      open do
-        To.ruby(@native.Global().Get(key.to_s))
-      end
+      @native[key]
     end
     
     def []=(key, value)
-      value.tap do 
-        open do
-          @native.Global().tap do |scope|
-            scope.Set(key.to_s, value)
-          end
-        end
-      end
+      puts "def []=(#{key}, #{value})"
+      @native.enter
+      @native.set( key, value)
+      @native.exit
     end
     
     def self.open(opts = {}, &block)
@@ -61,10 +60,12 @@ module V8
     end
     
     def self.eval(source)
+      puts "self.eval"
       new.eval(source)
     end
     
     def V8.eval(*args)
+      puts "V8.eval"
       V8::Context.eval(*args)
     end
   end
@@ -79,7 +80,8 @@ module V8
   end
   class JavascriptError < StandardError
     def initialize(v8_message)
-      super("#{v8_message.Get()}: #{v8_message.GetScriptResourceName()}:#{v8_message.GetLineNumber()}")
+#      super("#{v8_message.Get()}: #{v8_message.GetScriptResourceName()}:#{v8_message.GetLineNumber()}")
+      super("foo")
       @native = v8_message
     end
 

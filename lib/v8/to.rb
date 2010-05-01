@@ -5,7 +5,7 @@ module V8
       def ruby(value)
         case value
         when V8::C::Object then V8::Object.new(value)
-        when V8::C::String then "Wonkers!"          
+# ??    when V8::C::String then "Wonkers!"          
         else
           value
         end
