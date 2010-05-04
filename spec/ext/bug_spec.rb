@@ -5,16 +5,14 @@ include V8
 describe "A Javascript Object Reflected Into Ruby" do
 
   it "should not have a current context if no context is open" do
-    cxt = C::Context.new
-    cxt.open do
-      rputs cxt.eval('"Hi There"', "<eval>")
-      C::Context.new.open do |cxt2|
-        rputs cxt2.eval('7 * 6', "<eval>")
-      end
-    end
-    C::Context::GetCurrent().should be_nil
+    cxt = Context.new
+    rputs cxt.eval('"Hi There"', "<eval>")
+    cxt2 = Context.new
+    rputs cxt2.eval('7 * 6', "<eval>")
+    C::Context::GetCurrent().should be_nil  
   end
   
+=begin  
   specify "inline madness" do
     cxt = Context.new
     cxt.open do |cxt|
@@ -39,7 +37,7 @@ describe "A Javascript Object Reflected Into Ruby" do
     end
     C::Context::GetCurrent().should be_nil
   end
-  
+=end  
   def rubyopen(cxt, &block)
     native = cxt.instance_variable_get(:@native)
     if block_given?

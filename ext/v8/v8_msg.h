@@ -5,14 +5,15 @@
 #include "ruby.h"
 
 extern VALUE V8_C_Message;
-VALUE V8_Wrap_Message(v8::Handle<v8::Message> msg);
-VALUE v8_Message_Get(VALUE self);
-VALUE v8_Message_GetSourceLine(VALUE self);
-VALUE v8_Message_GetScriptResourceName(VALUE self);
-VALUE v8_Message_GetLineNumber(VALUE self);
-VALUE v8_Message_GetStartPosition(VALUE self);
-VALUE v8_Message_GetEndPosition(VALUE self);
-VALUE v8_Message_GetStartColumn(VALUE self);
-VALUE v8_Message_GetEndColumn(VALUE self);
+
+VALUE v8_wrap_message(v8::Handle<v8::Message> msg);
+VALUE v8_message_get(VALUE self);
+VALUE v8_message_get_source_line(VALUE self);
+VALUE v8_message_get_script_resource_name(VALUE self);
+VALUE v8_message_get_line_number(VALUE self);
+VALUE v8_message_get_start_position(VALUE self);
+VALUE v8_message_get_end_position(VALUE self);
+VALUE v8_message_get_start_column(VALUE self);
+VALUE v8_message_get_end_column(VALUE self);
 
 #endif

@@ -3,52 +3,137 @@
 #include "v8_ref.h"
 
 using namespace v8;
+using namespace std;
 
 VALUE V8_C_Message;
 
-VALUE V8_Wrap_Message(Handle<v8::Message> msg) {
-  return V8_Ref_Create(V8_C_Message, msg);
+namespace {
+  
+  /**
+   * A class to hold the v8 exception information that we can access
+   * outside of a context.  That way we don't have to fiddle with contexts
+   * when things go wrong.
+   */
+  class RRMessage {
+  private:
+    string script;
+    string msg;
+    string sourceLine;
+    int lineNumber;
+    int startPos;
+    int endPos;
+    int startCol;
+    int endCol;
+  
+  public:
+    RRMessage(Handle<Message>& message) :
+      startPos(message->GetStartPosition()),
+      endPos(message->GetEndPosition()),
+      startCol(message->GetStartColumn()),
+      endCol(message->GetEndColumn()) {
+        Handle<Value> scriptResourceNameHandle = message->GetScriptResourceName();
+        Handle<Value> messageHandle = message->Get();
+        Handle<Value> sourceLineHandle = message->GetSourceLine();  
+        script = V82String(scriptResourceNameHandle);
+        msg = V82String(messageHandle);
+        sourceLine = V82String(sourceLineHandle);
+        lineNumber = message->GetLineNumber();
+        printf("LineNumber (a) %d\n", lineNumber);        
+    }
+
+    const char* GetScriptResourceName() {
+      return script.c_str();
+    }
+        
+    const char* GetMessage() {
+      return msg.c_str();
+    }
+    
+    const char* GetSourceLine() {
+      return sourceLine.c_str();
+    }
+    
+    int GetLineNumber() {
+      return lineNumber;
+    }
+    
+    int GetStartPos() { 
+      return startPos;
+    }
+    
+    int GetEndPos() {
+      return endPos;
+    }
+    
+    int GetStartCol() {
+      return startPos;
+    }
+    
+    int GetEndCol() {
+      return endPos;
+    }
+    
+};
+  
+  RRMessage* unwrap(VALUE wrapper) {
+    RRMessage* mess = 0;
+    Data_Get_Struct(wrapper, class RRMessage, mess);
+    return mess;
+  }
 }
 
-VALUE v8_Message_Get(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  Local<Value> str = message->Get();
-  return V82RB(str);
+extern "C" {
+  void mark_mess(RRMessage* ref) {
+  }
+
+  void free_mess(RRMessage* ref) {
+    delete ref;
+  }
 }
 
-VALUE v8_Message_GetSourceLine(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  Local<Value> line = message->GetSourceLine();
-  return V82RB(line);
+VALUE v8_wrap_message(Handle<v8::Message> msg) {
+  printf("v8_wrap_message");
+  RRMessage* mess = new RRMessage(msg);
+  return Data_Wrap_Struct(V8_C_Message, mark_mess, free_mess, mess);
 }
 
-VALUE v8_Message_GetScriptResourceName(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  Handle<Value> name = message->GetScriptResourceName();
-  return V82RB(name);
+VALUE v8_message_get(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return rb_str_new2(mess->GetMessage());
 }
 
-VALUE v8_Message_GetLineNumber(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  return INT2FIX(message->GetLineNumber());
+VALUE v8_message_get_source_line(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return rb_str_new2(mess->GetSourceLine());
 }
 
-VALUE v8_Message_GetStartPosition(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  return INT2FIX(message->GetStartPosition());
+VALUE v8_message_get_script_resource_name(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return rb_str_new2(mess->GetScriptResourceName());
 }
 
-VALUE v8_Message_GetEndPosition(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  return INT2FIX(message->GetEndPosition());
+VALUE v8_message_get_line_number(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  printf("Line Number (b) %d\n", mess->GetLineNumber());
+  return INT2FIX(mess->GetLineNumber());
 }
 
-VALUE v8_Message_GetStartColumn(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  return INT2FIX(message->GetStartColumn());
+VALUE v8_message_get_start_position(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return INT2FIX(mess->GetStartPos());
 }
 
-VALUE v8_Message_GetEndColumn(VALUE self) {
-  Local<Message> message = V8_Ref_Get<Message>(self);
-  return INT2FIX(message->GetEndColumn());
+VALUE v8_message_get_end_position(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return INT2FIX(mess->GetEndPos());
+}
+
+VALUE v8_message_get_start_column(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return INT2FIX(mess->GetStartCol());
+}
+
+VALUE v8_message_get_end_column(VALUE self) {
+  RRMessage* mess = unwrap(self);
+  return INT2FIX(mess->GetEndCol());
 }

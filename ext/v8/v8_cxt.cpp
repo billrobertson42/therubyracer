@@ -28,7 +28,7 @@ VALUE v8_cxt_new(int argc, VALUE *argv, VALUE self) {
 }
 
 VALUE racer_error_message(TryCatch& exception) {
-  VALUE msg = V8_Ref_Create(V8_C_Message, exception.Message());
+  VALUE msg = v8_wrap_message(exception.Message());
   Local<Value> stack = exception.StackTrace();
   if (!stack.IsEmpty()) {
     rb_iv_set(msg,"@stack",V82RB(stack));    
