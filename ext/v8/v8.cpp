@@ -47,7 +47,7 @@ extern "C" {
         rb_define_method(V8_C_Context, "enter", (VALUE(*)(...)) v8_cxt_enter, 0);
         rb_define_method(V8_C_Context, "eval", (VALUE(*)(...)) v8_cxt_eval, 2);
         rb_define_method(V8_C_Context, "exit",  (VALUE(*)(...)) v8_cxt_exit, 0);
-        rb_define_method(V8_C_Context, "is_entered", (VALUE(*)(...)) v8_cxt_enter, 0);
+        rb_define_method(V8_C_Context, "is_entered", (VALUE(*)(...)) v8_cxt_is_entered, 0);
         
         //native String
         VALUE V8__C__String = rb_define_class_under(rb_mNative, "String", rb_cObject);

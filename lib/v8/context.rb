@@ -19,6 +19,10 @@ module V8
       end
     end
     
+    def entered?
+      @native.is_entered
+    end
+    
     def eval(javascript, sourcename = '<eval>', line = 1)
       puts "eval"
       if IO === javascript || StringIO === javascript

@@ -9,7 +9,8 @@ describe "A Javascript Object Reflected Into Ruby" do
     rputs cxt.eval('"Hi There"', "<eval>")
     cxt2 = Context.new
     rputs cxt2.eval('7 * 6', "<eval>")
-    C::Context::GetCurrent().should be_nil  
+    cxt.should_not be_entered
+    cxt2.should_not be_entered
   end
   
 =begin  
