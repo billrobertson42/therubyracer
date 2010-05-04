@@ -50,6 +50,10 @@ VALUE v8_cxt_exit(VALUE self) {
   return self;
 }
 
+VALUE v8_cxt_is_entered(VALUE self) {
+  return Context::GetEntered() == V8_Ref_Get<Context>(self) ? Qtrue : Qfalse;
+}
+
 VALUE v8_cxt_get_global_val(VALUE self, VALUE key) {
   HandleScope handles;
   Local<Context> cxt = V8_Ref_Get<Context>(self);
@@ -66,10 +70,6 @@ VALUE v8_cxt_set_global_val(VALUE self, VALUE key, VALUE value) {
   Local<Object> global = cxt->Global();
   printf("v8_cxt_set_global_val %d\n", __LINE__);
   return v8_object_set_from_handle(global, key, value);
-}
-
-VALUE v8_cxt_is_entered(VALUE self) {
-  return INT2FIX(!Context::GetEntered().IsEmpty()); 
 }
 
 VALUE v8_cxt_eval(VALUE self, VALUE source, VALUE filename) {
