@@ -49,13 +49,17 @@ module V8
     end
     
     def [](key)
-      @native[key]
+      puts "def []=(#{key})"
+      @native.enter
+      result = @native.get key
+      @native.exit
+      Object.new result
     end
     
     def []=(key, value)
       puts "def []=(#{key}, #{value})"
       @native.enter
-      @native.set( key, value)
+      @native.set key, value
       @native.exit
     end
     
